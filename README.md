@@ -16,3 +16,10 @@ Vinculação de Serviços: Cada serviço cadastrado é vinculado a um cliente es
 - Linguagem de Programação: Python
 - Banco de Dados: Firebird (FDB)
 - Interface Gráfica: customtkinter
+
+## Pré-requisitos
+Python 3.x
+Firebird
+Bibliotecas Python: tkinter, fdb
+
+Desenvolvido por Gustavo Cruz. Para mais informações, entre em contato em gustavo.cruz2109@gmail.com.
