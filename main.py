@@ -19,6 +19,7 @@ class ClientControlApp(ctk.CTk):
     def connect_db(self):
         try:
             conn = fdb.connect(
+                # preencha com os dados do seu banco de dados
                 dsn='localhost:C:\ClientsControl\ClientControl.fdb',
                 user='SYSDBA',
                 password='masterkey'
@@ -215,9 +216,9 @@ class ClientControlApp(ctk.CTk):
 
             resultados_servico = cursor.fetchall()  # Busca os resultados
 
-            self.servicos.delete(*self.servicos.get_children())  # Limpa o Treeview
+            self.servicos.delete(*self.servicos.get_children())  # Limpa a tabela
             for row in resultados_servico:
-                self.servicos.insert("", "end", values=row)  # Insere os resultados no Treeview
+                self.servicos.insert("", "end", values=row)  # Insere os resultados na tabela
         except fdb.Error as e:
             messagebox.showerror("Erro", f"Erro ao realizar a consulta: {e}")
         finally:
@@ -310,38 +311,9 @@ class ClientControlApp(ctk.CTk):
     def update_cadastro_client(self):
 
         if descricao and urgencia and etapa and anotacao:
-            cursor = self.db_conn.cursor()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+            cursor = self.db_conn.cursor() 
             try:
-                cursor.execute("INSERT INTO servicos (descricao, urgencia, etapa, anotacao, valor) VALUES (?, ?, ?, ?, ?)",
+                cursor.execute("UPDATE servicos SET descricao, urgencia, etapa, anotacao, valor VALUES (?, ?, ?, ?, ?)",
                                (descricao, urgencia, etapa, anotacao, valor))
                 self.db_conn.commit()
                 messagebox.showinfo("Sucesso", "Serviço salvo com sucesso!")
@@ -352,7 +324,43 @@ class ClientControlApp(ctk.CTk):
         else:
             messagebox.showerror("Erro", "Por favor, preencha todos os campos.")
 
+    def new_cadastro_client(self):
+        ...
 
+    def new_cadastro_serviço(self):
+        ...
+
+    def client_options(self):
+        self.tabs = ctk.CTkTabview(self)
+        self.tabs.pack(expand=True, fill="both")
+
+        # Tela Inicial / consulta
+        self.tab_startmenu = self.tabs.add("Novo")
+        # função que irá limpar os dados (caso preenchido) e irá alterar a função do botão para cadastrar
+
+        # Tab Cadastro de Clientes
+        self.tab_cadastro = self.tabs.add("Editar")
+        self.update_cadastro_client()
+
+        # Tab Serviços
+        self.tab_servicos = self.tabs.add("Excluir")
+        # Função que irá excluir o cadastro se necessário
+    
+    def service_options(self):
+        self.tabs = ctk.CTkTabview(self)
+        self.tabs.pack(expand=True, fill="both")
+
+        # Tela Inicial / consulta
+        self.tab_startmenu = self.tabs.add("Tela Inicial")
+        # função que irá limpar os dados (caso preenchido) e irá alterar a função do botão para cadastrar
+
+        # Tab Cadastro de Clientes
+        self.tab_cadastro = self.tabs.add("Cadastro de Clientes")
+        # função que irá atualizar o cadastro do produto
+
+        # Tab Serviços
+        self.tab_servicos = self.tabs.add("Serviços")
+        # Função que irá excluir o cadastro se necessário
 
 
 if __name__ == "__main__":
