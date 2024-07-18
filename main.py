@@ -46,33 +46,31 @@ class ClientControlApp(ctk.CTk):
         self.create_servicos_widgets()
 
     def create_cadastro_widgets(self):
-        #self.client_options()
         self.nome_label = ctk.CTkLabel(self.tab_cadastro, text="Nome:")
-        self.nome_label.grid(row=1, column=0, padx=(0, 10), pady=10, sticky="e")
+        self.nome_label.grid(row=0, column=0, padx=(0, 10), pady=10, sticky="e")
         self.nome_entry = ctk.CTkEntry(self.tab_cadastro, width=250)
-        self.nome_entry.grid(row=1, column=1, padx=(0, 10), pady=10, columnspan=2)
+        self.nome_entry.grid(row=0, column=1, padx=(0, 10), pady=10, columnspan=2)
 
         self.telefone_label = ctk.CTkLabel(self.tab_cadastro, text="Telefone:")
-        self.telefone_label.grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        self.telefone_label.grid(row=1, column=0, padx=10, pady=10, sticky="e")
         self.telefone_entry = ctk.CTkEntry(self.tab_cadastro)
-        self.telefone_entry.grid(row=2, column=1, padx=(0, 10), pady=10, sticky="w")
+        self.telefone_entry.grid(row=1, column=1, padx=(0, 10), pady=10, sticky="w")
 
         self.email_label = ctk.CTkLabel(self.tab_cadastro, text="Email:")
-        self.email_label.grid(row=3, column=0, padx=10, pady=10, sticky="e")
+        self.email_label.grid(row=2, column=0, padx=10, pady=10, sticky="e")
         self.email_entry = ctk.CTkEntry(self.tab_cadastro)
-        self.email_entry.grid(row=3, column=1, padx=(0, 10), pady=10, sticky="w")
+        self.email_entry.grid(row=2, column=1, padx=(0, 10), pady=10, sticky="w")
 
         self.servico_label = ctk.CTkLabel(self.tab_cadastro, text="Serviço:")
-        self.servico_label.grid(row=4, column=0, padx=10, pady=10, sticky="e")
+        self.servico_label.grid(row=3, column=0, padx=10, pady=10, sticky="e")
         self.servico_entry = ctk.CTkEntry(self.tab_cadastro)
-        self.servico_entry.grid(row=4, column=1, padx=0, pady=10, sticky="w")
+        self.servico_entry.grid(row=3, column=1, padx=0, pady=10, sticky="w")
 
         self.select_servico = ctk.CTkButton(self.tab_cadastro, text="🔍", width=10, command=self.select_produto)
-        self.select_servico.grid(row=4, column=2, padx=0, pady=10, sticky="w")
+        self.select_servico.grid(row=3, column=2, padx=0, pady=10, sticky="w")
 
         self.cadastrar_button = ctk.CTkButton(self.tab_cadastro, text="Cadastrar", command=self.cadastrar_cliente)
-        self.cadastrar_button.grid(row=5, columnspan=2, pady=20)
-
+        self.cadastrar_button.grid(row=4, columnspan=2, pady=20)
 
     def cadastrar_cliente(self):
         nome = self.nome_entry.get()
@@ -310,9 +308,9 @@ class ClientControlApp(ctk.CTk):
     def chage_command_button_client(self):
         self.cadastrar_button.configure(command=self.update_cadastro_client)
 
-    """def update_cadastro_client(self):
+    def update_cadastro_client(self):
 
-        if descricao or urgencia and etapa and anotacao:
+        if descricao and urgencia and etapa and anotacao:
             cursor = self.db_conn.cursor() 
             try:
                 cursor.execute("UPDATE servicos SET descricao, urgencia, etapa, anotacao, valor VALUES (?, ?, ?, ?, ?)",
@@ -324,7 +322,7 @@ class ClientControlApp(ctk.CTk):
             finally:
                 cursor.close()
         else:
-            messagebox.showerror("Erro", "Por favor, preencha todos os campos.")"""
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos.")
 
     def new_cadastro_client(self):
         ...
@@ -333,37 +331,36 @@ class ClientControlApp(ctk.CTk):
         ...
 
     def client_options(self):
-        self.tabs_client = ctk.CTkTabview(self.tab_cadastro)
-
-        self.tabs_client.grid(row=0, column=0, padx=0, pady=0, columnspan=3)
+        self.tabs = ctk.CTkTabview(self)
+        self.tabs.pack(expand=True, fill="both")
 
         # Tela Inicial / consulta
-        self.tab_new_client = self.tabs_client.add("Novo")
+        self.tab_startmenu = self.tabs.add("Novo")
         # função que irá limpar os dados (caso preenchido) e irá alterar a função do botão para cadastrar
 
         # Tab Cadastro de Clientes
-        self.tab_edit_client = self.tabs_client.add("Editar")
-        #self.update_cadastro_client()
+        self.tab_cadastro = self.tabs.add("Editar")
+        self.update_cadastro_client()
 
         # Tab Serviços
-        self.tab_delete_client = self.tabs_client.add("Excluir")
+        self.tab_servicos = self.tabs.add("Excluir")
         # Função que irá excluir o cadastro se necessário
     
-    """def service_options(self):
-        self.tabs_product = ctk.CTkTabview(self.tab_servicos)
-        self.tabs_product.pack(expand=True, fill="both")
+    def service_options(self):
+        self.tabs = ctk.CTkTabview(self)
+        self.tabs.pack(expand=True, fill="both")
 
         # Tela Inicial / consulta
-        self.tab_startmenu = self.tabs_product.add("Tela Inicial")
+        self.tab_startmenu = self.tabs.add("Tela Inicial")
         # função que irá limpar os dados (caso preenchido) e irá alterar a função do botão para cadastrar
 
         # Tab Cadastro de Clientes
-        self.tab_cadastro = self.tabs_product.add("Cadastro de Clientes")
+        self.tab_cadastro = self.tabs.add("Cadastro de Clientes")
         # função que irá atualizar o cadastro do produto
 
         # Tab Serviços
-        self.tab_servicos = self.tabs_product.add("Serviços")
-        # Função que irá excluir o cadastro se necessário"""
+        self.tab_servicos = self.tabs.add("Serviços")
+        # Função que irá excluir o cadastro se necessário
 
 
 if __name__ == "__main__":
